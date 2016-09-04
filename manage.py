@@ -1,7 +1,8 @@
-from flask.ext.script import Manager
+from flask_script import Manager
 
 from app import app, db
 from models import App, Connection, Message, Payload, ConnectionInfo
+
 
 manager = Manager(app)
 
@@ -26,3 +27,4 @@ def game(name):
 
 if __name__ == "__main__":
     manager.run()
+

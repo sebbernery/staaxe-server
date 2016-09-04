@@ -2,7 +2,6 @@ import json
 import uuid
 
 from flask import request, g, jsonify
-# from peewee import DoesNotExist, fn
 import peewee
 
 from app import app, db
