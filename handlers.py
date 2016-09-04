@@ -33,7 +33,8 @@ def init():
         })
 
     conn = Connection.create(app=game)
-    host = request.headers["Host"]
+
+    host = request.referrer or request.headers["Host"]
     user_agent = request.headers["User-Agent"]
     accept_lang = request.headers["Accept-Language"]
     ip_address = request.remote_addr
