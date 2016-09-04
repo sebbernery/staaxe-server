@@ -41,6 +41,7 @@ class ConnectionInfo(BaseModel):
     host = CharField()
     user_agent = CharField()
     accept_lang = CharField()
+    ip_address = CharField()
 
 
 class Message(BaseModel):

@@ -36,8 +36,15 @@ def init():
     host = request.headers["Host"]
     user_agent = request.headers["User-Agent"]
     accept_lang = request.headers["Accept-Language"]
+    ip_address = request.remote_addr
 
-    ConnectionInfo.create(connection=conn, host=host, user_agent=user_agent, accept_lang=accept_lang)
+    ConnectionInfo.create(
+        connection=conn,
+        host=host,
+        user_agent=user_agent,
+        accept_lang=accept_lang,
+        ip_address=ip_address
+    )
 
     return jsonify({
         'error': None,
