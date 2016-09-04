@@ -28,6 +28,9 @@ class Connection(BaseModel):
     def add_message(self, payload):
         message = Message.create(connection=self)
 
+        self.date_end = message.date
+        self.save()
+
         added = 0
         for content in payload:
             added += 1
