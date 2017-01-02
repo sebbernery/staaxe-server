@@ -32,20 +32,20 @@ def init():
             "error": "Token don't exist."
         })
 
-    conn = Connection.create(app=game)
-
     host = request.referrer or request.headers["Host"]
     user_agent = request.headers["User-Agent"]
     accept_lang = request.headers["Accept-Language"]
     ip_address = request.remote_addr
 
-    ConnectionInfo.create(
-        connection=conn,
-        host=host,
-        user_agent=user_agent,
-        accept_lang=accept_lang,
-        ip_address=ip_address
-    )
+    with g.db.atomic():
+        conn = Connection.create(app=game)
+        ConnectionInfo.create(
+            connection=conn,
+            host=host,
+            user_agent=user_agent,
+            accept_lang=accept_lang,
+            ip_address=ip_address
+        )
 
     return jsonify({
         'error': None,
@@ -58,7 +58,8 @@ def send():
     connection_id = uuid.UUID(data["id"])
     conn = Connection.get(uuid=connection_id)
 
-    added = conn.add_message(data["payload"])
+    with g.db.atomic():
+        added = conn.add_message(data["payload"])
 
     return jsonify({
         'num_received': added
