@@ -1,3 +1,3 @@
 DEBUG = False
-DATABASE_NAME = "database.db"
+DATABASE_NAME = "sqlite:///database.db"
 

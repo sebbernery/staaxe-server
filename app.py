@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_cors import CORS
-from peewee import SqliteDatabase
+from playhouse.flask_utils import FlaskDB
 
 import config
 
@@ -11,5 +11,5 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 if config.DEBUG:
     app.config['PROPAGATE_EXCEPTIONS'] = True
 
-db = SqliteDatabase(config.DATABASE_NAME)
+db = FlaskDB(app, config.DATABASE_NAME)
 

@@ -6,9 +6,8 @@ from peewee import Model, CharField, DateTimeField, UUIDField, IntegerField, For
 from app import app, db
 
 
-class BaseModel(Model):
-    class Meta:
-        database = db
+class BaseModel(db.Model):
+    ...
 
 def get_uuid():
     return uuid.uuid4().hex

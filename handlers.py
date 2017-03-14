@@ -8,18 +8,6 @@ from app import app, db
 from models import Connection, App, Message, ConnectionInfo
 
 
-@app.before_request
-def before_request():
-    g.db = db
-    g.db.connect()
-
-
-@app.after_request
-def after_request(response):
-    g.db.close()
-    return response
-
-
 @app.route("/init", methods=["POST"])
 def init():
     data = json.loads(request.data.decode("utf-8"))
@@ -37,7 +25,7 @@ def init():
     accept_lang = request.headers["Accept-Language"]
     ip_address = request.remote_addr
 
-    with g.db.atomic():
+    with db.database.atomic():
         conn = Connection.create(app=game)
         ConnectionInfo.create(
             connection=conn,
@@ -58,7 +46,7 @@ def send():
     connection_id = uuid.UUID(data["id"])
     conn = Connection.get(uuid=connection_id)
 
-    with g.db.atomic():
+    with db.database.atomic():
         added = conn.add_message(data["payload"])
 
     return jsonify({
