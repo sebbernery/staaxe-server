@@ -6,10 +6,11 @@ import config
 
 
 app = Flask(__name__)
+app.config.from_object(config)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
 if config.DEBUG:
     app.config['PROPAGATE_EXCEPTIONS'] = True
 
-db = FlaskDB(app, config.DATABASE_NAME)
+db = FlaskDB(app, config.DATABASE)
 

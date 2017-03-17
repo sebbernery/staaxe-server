@@ -4,8 +4,8 @@ import uuid
 from flask import request, g, jsonify
 import peewee
 
-from app import app, db
-from models import Connection, App, Message, ConnectionInfo
+from staaxe.app import app, db
+from staaxe.models import Connection, App, Message, ConnectionInfo
 
 
 @app.route("/init", methods=["POST"])
