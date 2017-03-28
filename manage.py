@@ -1,7 +1,7 @@
 from flask_script import Manager
 
 from staaxe.app import app, db
-from staaxe.models import App, Connection, Message, Payload, ConnectionInfo, Metadata
+from staaxe.models import App, Connection, Payload, ConnectionInfo, Metadata
 
 from scripts import import_v1sqlite, export_to_json
 
@@ -11,7 +11,8 @@ manager = Manager(app)
 @manager.command
 def initdb():
     db.database.connect()
-    db.database.create_tables([App, Connection, Message, Payload, ConnectionInfo, Metadata])
+    db.database.create_tables([App, Connection, Payload, ConnectionInfo, Metadata])
+    Metadata.create()
     db.database.close()
 
 

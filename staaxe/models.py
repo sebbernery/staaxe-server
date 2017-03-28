@@ -19,28 +19,34 @@ class App(BaseModel):
     token = UUIDField(index=True, default=get_uuid)
     private_token = UUIDField(default=get_uuid)
     name = CharField(unique=True)
+    metadata = TextField(null=True)
 
 
 class Connection(BaseModel):
-    uuid = UUIDField(default=get_uuid)
+    uuid = UUIDField(index=True, default=get_uuid)
     app = ForeignKeyField(App)
-    date_start = DateTimeField(default=datetime.datetime.now)
+    date_start = DateTimeField(index=True, default=datetime.datetime.now)
     date_end = DateTimeField(default=datetime.datetime.now)
+    messages_count = IntegerField(default=0)
 
     def add_message(self, payload):
         now = datetime.datetime.now()
-        message = Message.create(
-            connection=self,
-            time_since_connection = (now - self.date_start).total_seconds(),
-        )
 
         self.date_end = now
+        self.messages_count += 1
         self.save()
+
+        time_since_connection = (now - self.date_start).total_seconds(),
 
         added = 0
         for content in payload:
             added += 1
-            Payload.create(message=message, key=content["key"], value=content["value"])
+            Payload.create(
+                connection=self,
+                time_since_connection=time_since_connection,
+                key=content["key"],
+                value=content["value"]
+            )
 
         return added
 
@@ -53,15 +59,11 @@ class ConnectionInfo(BaseModel):
     ip_address = TextField()
 
 
-class Message(BaseModel):
-    connection = ForeignKeyField(Connection, index=False)
-    time_since_connection = FloatField()
-
-
 class Payload(BaseModel):
-    message = ForeignKeyField(Message, index=False)
+    connection = ForeignKeyField(Connection)
+    time_since_connection = FloatField()
     key = TextField(null=True)
-    value = TextField()
+    value = TextField(null=True)
 
 
 class Metadata(BaseModel):
