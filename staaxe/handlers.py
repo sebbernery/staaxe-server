@@ -5,7 +5,7 @@ from flask import request, g, jsonify
 import peewee
 
 from staaxe.app import app, db
-from staaxe.models import Connection, App, Message, ConnectionInfo
+from staaxe.models import Connection, App, ConnectionInfo
 
 
 @app.route("/init", methods=["POST"])
