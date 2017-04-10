@@ -37,7 +37,6 @@ class Connection(BaseModel):
         self.save()
 
         time_since_connection = (now - self.date_start).total_seconds()
-        print(time_since_connection)
 
         added = 0
         for content in payload:
