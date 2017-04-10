@@ -1,0 +1,3 @@
+DEBUG = False
+DATABASE = "sqlite:///database.db"
+
