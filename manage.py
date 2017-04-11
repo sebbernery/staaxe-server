@@ -29,8 +29,7 @@ def game(name):
 
 @manager.command
 def import_from_v1(filename):
-    with db.database.atomic():
-        import_v1sqlite.import_from_v1sqlite(filename)
+    import_v1sqlite.import_from_v1sqlite(filename)
 
 @manager.command
 def export_json(appname):

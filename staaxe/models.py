@@ -52,8 +52,9 @@ class Connection(BaseModel):
 
 
 class ConnectionInfo(BaseModel):
-    connection = ForeignKeyField(Connection)
+    connection = ForeignKeyField(Connection, unique=True)
     host = TextField()
+    referrer = TextField(default="")
     user_agent = TextField()
     accept_lang = TextField()
     ip_address = TextField()

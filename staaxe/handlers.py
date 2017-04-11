@@ -20,7 +20,8 @@ def init():
             "error": "Token don't exist."
         })
 
-    host = request.referrer or request.headers["Host"]
+    referrer = request.referrer
+    host = request.headers["Host"]
     user_agent = request.headers["User-Agent"]
     accept_lang = request.headers["Accept-Language"]
     ip_address = request.remote_addr
@@ -29,6 +30,7 @@ def init():
         conn = Connection.create(app=game)
         ConnectionInfo.create(
             connection=conn,
+            referrer=referrer,
             host=host,
             user_agent=user_agent,
             accept_lang=accept_lang,
